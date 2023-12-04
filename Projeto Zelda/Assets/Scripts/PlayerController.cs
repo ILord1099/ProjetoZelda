@@ -6,16 +6,19 @@ public class PlayerController : MonoBehaviour
 {
 
     private CharacterController controller;
+    private Animator anim;
 
     [Header("Config Player")]
     public float movementSpeed = 3f;
 
     private Vector3 direction;
+    private bool isWalk;
 
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<CharacterController>();   
+        controller = GetComponent<CharacterController>();  
+        anim = GetComponent<Animator>();
 
     }
 
@@ -31,8 +34,14 @@ public class PlayerController : MonoBehaviour
         {
             float targetAngle = Mathf.Atan2(direction.x,direction.z) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0,targetAngle,0);
+            isWalk = true;
         }
-
+        else // if(direction,magnitude <= 0.1f)
+        {
+            isWalk = false;
+        }
         controller.Move(direction * movementSpeed* Time.deltaTime);
+
+        anim.SetBool("isWalk", isWalk);
     }
 }
