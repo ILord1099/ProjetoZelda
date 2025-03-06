@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0,targetAngle,0);
             isWalk = true;
         }
-        else // if(direction,magnitude <= 0.1f)
+        else 
         {
             isWalk = false;
         }
