@@ -15,8 +15,8 @@ public class InventoryTester : MonoBehaviour
         craftingSystem = GetComponent<CraftingSystem>();
 
         // Adiciona itens ao inventário para teste
-        inventory.AddItem(madeira, 20);
-        inventory.AddItem(ferro, 10);
+        inventory.AddItem(madeira, 0);
+        inventory.AddItem(ferro, 0);
 
         // Mostra os itens adicionados no Console
         Debug.Log("Itens adicionados ao inventário.");
