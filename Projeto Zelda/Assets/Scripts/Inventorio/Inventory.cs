@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
-
-// Este script gerencia o inventário do jogador, armazenando os itens coletados e permitindo a adição e remoção de itens.
+using System;
 
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance; // Instância única do inventário (Singleton)
+
+    public List<InventorySlot> slots = new List<InventorySlot>(); // Lista que armazena os itens no inventário
+
+    public event Action onItemChangedCallback; // Evento para notificar mudanças no inventário
 
     private void Awake()
     {
@@ -14,8 +17,6 @@ public class Inventory : MonoBehaviour
         else
             Destroy(gameObject); // Destroi instâncias duplicadas
     }
-
-    public List<InventorySlot> slots = new List<InventorySlot>(); // Lista que armazena os itens no inventário
 
     // Adiciona um item ao inventário
     public void AddItem(Item item, int quantity)
@@ -33,6 +34,8 @@ public class Inventory : MonoBehaviour
             // Caso contrário, cria um novo slot para o item
             slots.Add(new InventorySlot(item, quantity));
         }
+
+        onItemChangedCallback?.Invoke(); // Notifica o sistema que o inventário foi atualizado
     }
 
     // Remove uma quantidade específica de um item do inventário
@@ -48,13 +51,18 @@ public class Inventory : MonoBehaviour
             if (slot.quantity <= 0)
                 slots.Remove(slot); // Remove o slot se a quantidade chegar a zero
 
+            onItemChangedCallback?.Invoke(); // Notifica o sistema que o inventário foi atualizado
             return true; // Remoção bem-sucedida
         }
-        return false; // Falha ao remover o item (quantidade insuficiente ou item não encontrado)
+        return false; // Falha ao remover o item
+    }
+
+    public List<InventorySlot> GetItems()
+    {
+        return slots;
     }
 }
 
-// Classe que define um slot do inventário, contendo um item e sua quantidade
 [System.Serializable]
 public class InventorySlot
 {

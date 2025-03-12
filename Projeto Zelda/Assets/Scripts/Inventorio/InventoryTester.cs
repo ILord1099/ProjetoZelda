@@ -20,7 +20,18 @@ public class InventoryTester : MonoBehaviour
 
         // Mostra os itens adicionados no Console
         Debug.Log("Itens adicionados ao inventário.");
+    }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C)) // Pressione a tecla C para tentar criar o item
+        {
+            Creating();
+        }
+    }
+
+    void Creating()
+    {
         // Tenta fabricar o item usando a receita
         bool crafted = craftingSystem.CraftItem(espadaRecipe);
 
